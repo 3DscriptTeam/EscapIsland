@@ -10,7 +10,9 @@ public class playerMovement : MonoBehaviour
     Rigidbody playerRigidbody;
     public float speed = 10f;
     public float turnSpeed = 20f;
-
+    bool isJumping;
+    float horizontalMove;
+    float verticalMove;
 
     // Start is called before the first frame update
     void Start()
@@ -18,24 +20,14 @@ public class playerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-
-        Run(h, v);
-    }
-
-
-
     // Update is called once per frame
     void Update()
     {
-        if(Input.anyKeyDown)
+        if (Input.anyKeyDown)
         {
             Debug.Log("플레이어가 아무 키를 눌렀습니다.");
         }
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             Debug.Log("왼쪽으로 이동 중");
 
@@ -44,6 +36,15 @@ public class playerMovement : MonoBehaviour
         {
             Debug.Log("오른쪽 이동 중");
         }
+
+        horizontalMove = Input.GetAxisRaw("Horizontal");
+        verticalMove = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            isJumping = true;
+        }
+
         /*
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -60,16 +61,33 @@ public class playerMovement : MonoBehaviour
         */
     }
 
-    void Run(float h, float v)
+    void FixedUpdate()
     {
-        movement.Set(h, 0, v);
+        
+        Run();
+        Jump();
+    }
+
+
+    
+
+    void Run()
+    {
+        movement.Set(horizontalMove, 0, verticalMove);
         movement = movement.normalized * speed * Time.deltaTime;
 
         playerRigidbody.MovePosition(transform.position + movement);
 
     }
 
-    
+    void Jump()
+    {
+        if (!isJumping)
+            return;
+        playerRigidbody.MovePosition(transform.position + Vector3.up);
+
+        isJumping = false;
+    }
 
 }
 
