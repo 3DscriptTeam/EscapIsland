@@ -10,9 +10,12 @@ public class playerMovement : MonoBehaviour
     Rigidbody playerRigidbody;
     public float speed = 10f;
     public float turnSpeed = 20f;
+    public float jumpPower = 5f;
     bool isJumping;
     float horizontalMove;
     float verticalMove;
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -84,7 +87,7 @@ public class playerMovement : MonoBehaviour
     {
         if (!isJumping)
             return;
-        playerRigidbody.MovePosition(transform.position + Vector3.up);
+        playerRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
 
         isJumping = false;
     }
