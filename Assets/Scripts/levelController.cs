@@ -37,7 +37,7 @@ public class levelController : MonoBehaviour
 
     private void Start()
     {
-
+        bridgeOnStage = true;
         BuidProbabilityList();
         for (int i = 0; i < drawDistance; i++)
         {
