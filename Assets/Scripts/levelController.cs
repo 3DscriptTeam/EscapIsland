@@ -8,6 +8,17 @@ public class levelController : MonoBehaviour
     // 왼쪽라인, 중간라인, 오른쪽라인 중 어디에 나올지 고른다
     // 몇개가 나오는건지 고른다
 
+
+    [System.Serializable]
+    public class LevelPiece
+    {
+        public string name;
+        public GameObject prefab;
+        public int probability = 1;
+    }
+
+
+
     public LevelPiece[] obstacles;  //장애물 
     List<int> probabilityList= new List<int>();
     List<int> probabilityList_land = new List<int>();
@@ -32,7 +43,8 @@ public class levelController : MonoBehaviour
     int lastCamStep = 0;
 
     float brigdgeLoc = 0;
-
+    int i = 0;
+    int j = 0;
     float logSaving;
 
     private void Start()
@@ -90,13 +102,17 @@ public class levelController : MonoBehaviour
             if (bridgeOnStage==true)
             {
                 loc = brigdgeLoc;
-            }
+            }                                                                                                                                                                            
             GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(loc, 0f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+            hurdle.name = "hurdle"+i.ToString();
+            i++;
             activeObstacles.Enqueue(hurdle);
         }
         else       //철조망
         {
             GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(0f, 0f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+            hurdle.name = "hurdle" + i.ToString();
+            i++;
             activeObstacles.Enqueue(hurdle);
         }
         //activeObstacles.Enqueue(hurdle);
@@ -114,6 +130,8 @@ public class levelController : MonoBehaviour
         else
             brigdgeLoc = 0f;
         GameObject newLevelPiece = Instantiate(levelPieces[pieceIndex].prefab, new Vector3(brigdgeLoc, 0f, pieceLength * (currentCamStep +activePieces.Count)), Quaternion.identity);
+        newLevelPiece.name = "platform" + j.ToString();
+        j++;
         activePieces.Enqueue(newLevelPiece);
     }
 
@@ -157,14 +175,5 @@ public class levelController : MonoBehaviour
         }
     }
 
-}
-
-
-[System.Serializable]
-public class LevelPiece
-{
-    public string name;
-    public GameObject prefab;
-    public int probability=1;
 }
 

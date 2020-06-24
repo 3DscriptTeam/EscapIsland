@@ -13,16 +13,24 @@ public class PlayerController : MonoBehaviour
     public float laneDistance = 4; // the distance between two lane
 
 
-    // Start is called before the first frame update
+     //중력 추가 구현을 위한 변수들
+    public float gravity= -9.81f;
+    Vector3 velocity;
+    
+
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         
     }
 
+
     // Update is called once per frame
     void Update()
     {
+
+
         direction.z = forwardSpeed;
         // 우리가 있어야 할 라인
         if(Input.GetKeyDown(KeyCode.RightArrow))
@@ -43,9 +51,11 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        
-        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
 
+        //추가한것
+        Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
+        
+        
         if(desiredLane == 0)
         {
             targetPosition += Vector3.left * laneDistance;
@@ -55,12 +65,21 @@ public class PlayerController : MonoBehaviour
         {
             targetPosition += Vector3.right * laneDistance;
         }
-       transform.position = targetPosition;
-        //Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+        controller.center = controller.center;
+
+        velocity.y += gravity * Time.deltaTime;
+        if (!controller.isGrounded)
+        {
+            controller.Move(velocity * Time.deltaTime);
+        }
+
 
     }
     private void FixedUpdate()
     {
-        controller.Move(direction * Time.fixedDeltaTime);
+        controller.Move(direction* Time.fixedDeltaTime);
+    
+
     }
 }
