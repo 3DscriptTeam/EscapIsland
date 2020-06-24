@@ -173,7 +173,7 @@ MonoBehaviour:
       type: 3}
     probability: 2
   _camera: {fileID: 414015941}
-  drawDistance: 7
+  drawDistance: 10
   drawObstacles: 2
   pieceLength: 7.6
   speed: 3
@@ -455,7 +455,7 @@ PrefabInstance:
     - target: {fileID: 648954879044735699, guid: 46c80078ce8fc3c4db7aea3cc4b6495c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -13
+      value: -12.23
       objectReference: {fileID: 0}
     - target: {fileID: 648954879044735699, guid: 46c80078ce8fc3c4db7aea3cc4b6495c,
         type: 3}

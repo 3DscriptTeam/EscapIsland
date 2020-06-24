@@ -19,10 +19,12 @@ public class levelController : MonoBehaviour
     public int drawDistance;
     public int drawObstacles;
 
-    bool bridgeOnStage = false;   //다리가 있으면 블록이랑 철망 위치 조정해야함...
+    bool bridgeOnStage = true;   //다리가 있으면 블록이랑 철망 위치 조정해야함...
 
     public float pieceLength;
     public float speed;
+
+    bool firstTimePlaying = false;
 
     Queue<GameObject> activePieces =new Queue<GameObject>();
     Queue<GameObject> activeObstacles = new Queue<GameObject>();
@@ -31,40 +33,51 @@ public class levelController : MonoBehaviour
 
     float brigdgeLoc = 0;
 
+    float logSaving;
+
     private void Start()
     {
+
         BuidProbabilityList();
-        for (int i=0; i<drawDistance; i++)
+        for (int i = 0; i < drawDistance; i++)
         {
             SpawnNewLevelPiece();
-            SpawnObstacles();
-            bridgeOnStage = false;
+            if(i>5)
+                SpawnObstacles();
+            bridgeOnStage = true;
         }
 
-
-        currentCamStep = (int)(_camera.transform.position.z /pieceLength);
+        currentCamStep = (int)(_camera.transform.position.z / pieceLength);
         lastCamStep = currentCamStep;
+
     }
 
     private void Update()
     {
-        if(Input.GetKey("a"))
-        {
-            _camera.transform.position = Vector3.MoveTowards(_camera.transform.position, _camera.transform.position + Vector3.forward+ Vector3.left*100, Time.deltaTime * speed);
-        }
-        else
-            _camera.transform.position = Vector3.MoveTowards(_camera.transform.position,_camera.transform.position+Vector3.forward,Time.deltaTime *speed);
 
+         _camera.transform.position = Vector3.MoveTowards(_camera.transform.position, _camera.transform.position + Vector3.forward, Time.deltaTime * speed);
+
+        logSaving += _camera.transform.position.z;
         currentCamStep = (int)(_camera.transform.position.z / pieceLength);
-        if(currentCamStep != lastCamStep)
+        Debug.Log("camera distance:"+_camera.transform.position.z.ToString());
+        Debug.Log("currentCamStep:" + currentCamStep.ToString());
+        firstTimePlaying = logSaving > 4f ? true: false;
+        if (currentCamStep != lastCamStep)
         {
             lastCamStep = currentCamStep;
             DespawnLevelPiece();
+            
             SpawnNewLevelPiece();
-            SpawnObstacles();
-            bridgeOnStage = false;
+            
+            if (firstTimePlaying == true)
+            {
+                bridgeOnStage = false;
+                SpawnObstacles();
+                DespawnObstaclesPiece();
+            }   
+            
         }
-    
+
     }
 
     void SpawnObstacles()   //장애물 배치
@@ -106,17 +119,26 @@ public class levelController : MonoBehaviour
 
     void DespawnLevelPiece()    // 뒤에떨 없애주고 앞애껄 그만큼 만드는 방식
     {
-        GameObject oldLevelPiece = activePieces.Dequeue();
-        GameObject oldLevelObstacles= activeObstacles.Dequeue();
-        Destroy(oldLevelObstacles);
+        GameObject oldLevelPiece = activePieces.Dequeue(); 
+        
         Destroy(oldLevelPiece);
+    }
+
+    void DespawnObstaclesPiece()
+    {
+        if (activeObstacles.Count > 0)
+        {
+            GameObject oldLevelObstacles = activeObstacles.Dequeue();
+            if(oldLevelObstacles.transform.position.z-_camera.transform.position.z <0.1)
+                Destroy(oldLevelObstacles);
+        }
     }
 
     void BuidProbabilityList()      //장애물 확률 조정 함수
     {
         int index = 0;
         int index_ground = 0;
-        foreach(LevelPiece piece in obstacles)
+        foreach(LevelPiece piece in obstacles)           //probabilityList: 장애물
         {
             for(int i=0; i<piece.probability; i++)
             {
@@ -125,7 +147,7 @@ public class levelController : MonoBehaviour
             index++;
         }
 
-        foreach (LevelPiece piece in levelPieces)
+        foreach (LevelPiece piece in levelPieces)           //probabilityList_land : 바닥용
         {
             for (int i = 0; i < piece.probability; i++)
             {
@@ -145,3 +167,4 @@ public class LevelPiece
     public GameObject prefab;
     public int probability=1;
 }
+
