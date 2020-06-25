@@ -12,6 +12,9 @@ public class PlayerController : MonoBehaviour
     private int desiredLane = 1; // 0 왼쪽 , 1 가운데 2 오른쪽
     public float laneDistance = 4; // the distance between two lane
 
+    public float jumpForce;
+
+    public float Gravity = -20;
 
     // Start is called before the first frame update
     void Start()
@@ -24,8 +27,24 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         direction.z = forwardSpeed;
+
+        if (controller.isGrounded)
+        {
+            direction.y = -1;
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Jump();
+            }
+        }
+        else
+        {
+            direction.y += Gravity * Time.deltaTime;
+
+        }
+
+
         // 우리가 있어야 할 라인
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             desiredLane++;
             if(desiredLane == 3)
@@ -55,12 +74,18 @@ public class PlayerController : MonoBehaviour
         {
             targetPosition += Vector3.right * laneDistance;
         }
-       transform.position = targetPosition;
-        //Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
-
+       transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+       //controller.center = controller.center
+        //targetPosition;
     }
     private void FixedUpdate()
     {
         controller.Move(direction * Time.fixedDeltaTime);
+    }
+
+
+    private void Jump()
+    {
+        direction.y = jumpForce;
     }
 }
