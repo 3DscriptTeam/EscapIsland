@@ -13,9 +13,11 @@ public class PlayerController : MonoBehaviour
     public float laneDistance = 4; // the distance between two lane
 
     public float jumpForce;
-
+    private float timer;
     public GameObject item;
+    int count = 0;
 
+    bool booster;
     //중력 추가 구현을 위한 변수들
     public float gravity = -9.81f;
     Vector3 velocity;
@@ -31,17 +33,18 @@ public class PlayerController : MonoBehaviour
     }
     public void OnControllerColliderHit(ControllerColliderHit other)
     {
-        Debug.Log(other.gameObject.name.ToString() + "과 일단은 닿았다..");
+       // Debug.Log(other.gameObject.name.ToString() + "과 일단은 닿았다..");
         if (other.gameObject.tag == "obstacle")
         {
-            Debug.Log("player과 닿았다!");
+            //Debug.Log("player과 닿았다!");
             isTouched = true;
         }
         else if(other.gameObject.tag=="item")
         {
-            Debug.Log("물약마심!");
-            forwardSpeed += 1;
-
+           // Debug.Log("물약마심!");
+            forwardSpeed += 2f;
+            booster = true;
+            count++;
             other.gameObject.SetActive(false);
         }
       
@@ -50,7 +53,18 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+     
+        if (booster)
+        {
+            timer += Time.deltaTime;
+            if (timer %5==0  && count>0)
+            {
+                if(count==0)
+                    booster = false;
+                forwardSpeed -= 2;
+                count--;
+            }
+        }
         if (isTouched)
         {
             gameEnding.playerTouchedObstacles();

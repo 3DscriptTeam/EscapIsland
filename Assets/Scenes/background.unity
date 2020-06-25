@@ -176,7 +176,7 @@ MonoBehaviour:
   - name: blueBottle
     prefab: {fileID: 5096524946460352789, guid: 492b9e67e085ad1459797fc019c51c60,
       type: 3}
-    probability: 2
+    probability: 4
   - name: empty
     prefab: {fileID: 5740791356702331743, guid: b27e08fffd32ddb4ea417a6aefa33e10,
       type: 3}
