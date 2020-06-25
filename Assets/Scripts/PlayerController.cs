@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 direction;
-    public float forwardSpeed;
+    public float forwardSpeed=0;
 
     private int desiredLane = 1; // 0 왼쪽 , 1 가운데 2 오른쪽
     public float laneDistance = 4; // the distance between two lane
 
     public float jumpForce;
+
+    public GameObject item;
 
     //중력 추가 구현을 위한 변수들
     public float gravity= -9.81f;
@@ -35,6 +37,14 @@ public class PlayerController : MonoBehaviour
             Debug.Log("player과 닿았다!");
             isTouched = true;
         }
+        else if(other.gameObject.tag=="item")
+        {
+            Debug.Log("물약마심!");
+            forwardSpeed += 10;
+
+            other.gameObject.SetActive(false);
+        }
+      
     }
 
     // Update is called once per frame
