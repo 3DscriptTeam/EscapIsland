@@ -18,7 +18,12 @@ public class levelController : MonoBehaviour
         public int probability = 1;
     }
 
-   
+
+    public LevelPiece[] obstacles;  //장애물 
+    public LevelPiece[] levelPieces;
+    public LevelPiece[] levelItems;
+
+
     List<int> randomTime= new List<int>();        // 랜덤 시간 추출
     public float rr;
     public bool gameIsPaused;
@@ -26,13 +31,14 @@ public class levelController : MonoBehaviour
     public GameObject quizUI;
 
 
-    public LevelPiece[] obstacles;  //장애물 
     List<int> probabilityList= new List<int>();
     List<int> probabilityList_land = new List<int>();
+    List<int> probabilityList_item = new List<int>();
+
     int numberOfObstacles;  // 팝업 개수        
     int locationOfObstacles;   // 장애물의 종류
 
-    public LevelPiece[] levelPieces;
+
     public Transform _camera;
     public int drawDistance;
     public int drawObstacles;
@@ -46,6 +52,7 @@ public class levelController : MonoBehaviour
 
     Queue<GameObject> activePieces =new Queue<GameObject>();
     Queue<GameObject> activeObstacles = new Queue<GameObject>();
+    Queue<GameObject> activeItems = new Queue<GameObject>();
     int currentCamStep = 0;
     int lastCamStep = 0;
 
@@ -68,12 +75,14 @@ public class levelController : MonoBehaviour
         BuidProbabilityList();
         for (int i = 0; i < drawDistance; i++)
         {
+
             SpawnNewLevelPiece();
             if(i>5)
                 SpawnObstacles();
             bridgeOnStage = true;
+            
         }
-
+        spawnItem();
         currentCamStep = (int)(_camera.transform.position.z / pieceLength);
         lastCamStep = currentCamStep;
 
@@ -113,6 +122,15 @@ public class levelController : MonoBehaviour
 
     }
 
+
+    void spawnItem()
+    {
+        int pieceIndex = probabilityList_item[Random.Range(0, probabilityList_item.Count)];
+        GameObject item = Instantiate(levelItems[pieceIndex].prefab, new Vector3(0f, 1f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+        item.name = "item" + j.ToString();
+        j++;
+        activePieces.Enqueue(item);
+    }
 
     void randomQuiz(int t)
     {
@@ -175,6 +193,13 @@ public class levelController : MonoBehaviour
         Destroy(oldLevelPiece);
     }
 
+    void DespawnItemPiece()    // 아이템!!!
+    {
+        GameObject oldItemPiece = activeItems.Dequeue();
+        if (oldItemPiece.transform.position.z - _camera.transform.position.z < 0.1)
+            Destroy(oldItemPiece);
+    }
+
     void DespawnObstaclesPiece()
     {
         if (activeObstacles.Count > 0)
@@ -189,7 +214,9 @@ public class levelController : MonoBehaviour
     {
         int index = 0;
         int index_ground = 0;
-        foreach(LevelPiece piece in obstacles)           //probabilityList: 장애물
+        int index_item = 0;
+
+        foreach (LevelPiece piece in obstacles)           //probabilityList: 장애물
         {
             for(int i=0; i<piece.probability; i++)
             {
@@ -205,6 +232,15 @@ public class levelController : MonoBehaviour
                 probabilityList_land.Add(index_ground);
             }
             index_ground++;
+        }
+
+        foreach (LevelPiece piece in levelItems)           //probabilityList_land : 바닥용
+        {
+            for (int i = 0; i < piece.probability; i++)
+            {
+                probabilityList_item.Add(index_item);
+            }
+            index_item++;
         }
     }
 
