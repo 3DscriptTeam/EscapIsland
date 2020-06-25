@@ -71,8 +71,7 @@ public class levelController : MonoBehaviour
 
         logSaving += _camera.transform.position.z;
         currentCamStep = (int)(_camera.transform.position.z / pieceLength);
-        Debug.Log("camera distance:"+_camera.transform.position.z.ToString());
-        Debug.Log("currentCamStep:" + currentCamStep.ToString());
+
         firstTimePlaying = logSaving > 4f ? true: false;
         if (currentCamStep != lastCamStep)
         {

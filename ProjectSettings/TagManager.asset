@@ -6,6 +6,7 @@ TagManager:
   tags:
   - player
   - grounded
+  - obstacle
   layers:
   - Default
   - TransparentFX

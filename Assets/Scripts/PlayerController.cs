@@ -16,20 +16,33 @@ public class PlayerController : MonoBehaviour
      //중력 추가 구현을 위한 변수들
     public float gravity= -9.81f;
     Vector3 velocity;
-    
 
+    //허들 인식용
+    bool isTouched;
+    public GameEnding gameEnding;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
         
     }
-
+    public void OnControllerColliderHit(ControllerColliderHit other)
+    {
+        Debug.Log(other.gameObject.name.ToString() + "과 일단은 닿았다..");
+        if (other.gameObject.tag == "obstacle")
+        {
+            Debug.Log("player과 닿았다!");
+            isTouched = true;
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (isTouched)
+        {
+            gameEnding.playerTouchedObstacles();
+        }
 
         direction.z = forwardSpeed;
         // 우리가 있어야 할 라인
