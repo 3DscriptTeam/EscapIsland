@@ -8,6 +8,24 @@ public class levelController : MonoBehaviour
     // 왼쪽라인, 중간라인, 오른쪽라인 중 어디에 나올지 고른다
     // 몇개가 나오는건지 고른다
 
+    public float timeL; 
+
+    [System.Serializable]
+    public class LevelPiece
+    {
+        public string name;
+        public GameObject prefab;
+        public int probability = 1;
+    }
+
+   
+    List<int> randomTime= new List<int>();        // 랜덤 시간 추출
+    public float rr;
+    public bool gameIsPaused;
+    public GameObject player;
+    public GameObject quizUI;
+
+
     public LevelPiece[] obstacles;  //장애물 
     List<int> probabilityList= new List<int>();
     List<int> probabilityList_land = new List<int>();
@@ -32,11 +50,20 @@ public class levelController : MonoBehaviour
     int lastCamStep = 0;
 
     float brigdgeLoc = 0;
-
+    int i = 0;
+    int j = 0;
     float logSaving;
+
 
     private void Start()
     {
+        //quizUI.SetActive(false);
+        //for (int rr=0; rr<3; rr++)
+        //{
+        //    rr = Random.Range(0,1)*60 +2;
+        //    randomTime.Add(rr);
+        //}
+
         bridgeOnStage = true;
         BuidProbabilityList();
         for (int i = 0; i < drawDistance; i++)
@@ -52,15 +79,21 @@ public class levelController : MonoBehaviour
 
     }
 
+
+
     private void Update()
     {
+        //if(gameIsPaused==true)
+        //{
+        //    quizUI.SetActive(true);
+        //}
 
-         _camera.transform.position = Vector3.MoveTowards(_camera.transform.position, _camera.transform.position + Vector3.forward, Time.deltaTime * speed);
+        //timeL -= Time.deltaTime;
+        _camera.transform.position = Vector3.MoveTowards(_camera.transform.position, _camera.transform.position + Vector3.forward, Time.deltaTime * speed);
 
         logSaving += _camera.transform.position.z;
         currentCamStep = (int)(_camera.transform.position.z / pieceLength);
-        Debug.Log("camera distance:"+_camera.transform.position.z.ToString());
-        Debug.Log("currentCamStep:" + currentCamStep.ToString());
+
         firstTimePlaying = logSaving > 4f ? true: false;
         if (currentCamStep != lastCamStep)
         {
@@ -80,6 +113,18 @@ public class levelController : MonoBehaviour
 
     }
 
+
+    void randomQuiz(int t)
+    {
+        for (int a = 0; a < randomTime.Count; a++)
+        {
+            if (randomTime.Contains(t))
+            {              
+                gameIsPaused = true;
+            }
+        }
+    }
+
     void SpawnObstacles()   //장애물 배치
     {
         int pieceIndex = probabilityList[Random.Range(0, probabilityList.Count)];
@@ -90,13 +135,17 @@ public class levelController : MonoBehaviour
             if (bridgeOnStage==true)
             {
                 loc = brigdgeLoc;
-            }
+            }                                                                                                                                                                            
             GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(loc, 0f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+            hurdle.name = "hurdle"+i.ToString();
+            i++;
             activeObstacles.Enqueue(hurdle);
         }
         else       //철조망
         {
             GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(0f, 0f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+            hurdle.name = "hurdle" + i.ToString();
+            i++;
             activeObstacles.Enqueue(hurdle);
         }
         //activeObstacles.Enqueue(hurdle);
@@ -114,6 +163,8 @@ public class levelController : MonoBehaviour
         else
             brigdgeLoc = 0f;
         GameObject newLevelPiece = Instantiate(levelPieces[pieceIndex].prefab, new Vector3(brigdgeLoc, 0f, pieceLength * (currentCamStep +activePieces.Count)), Quaternion.identity);
+        newLevelPiece.name = "platform" + j.ToString();
+        j++;
         activePieces.Enqueue(newLevelPiece);
     }
 
@@ -157,14 +208,5 @@ public class levelController : MonoBehaviour
         }
     }
 
-}
-
-
-[System.Serializable]
-public class LevelPiece
-{
-    public string name;
-    public GameObject prefab;
-    public int probability=1;
 }
 
