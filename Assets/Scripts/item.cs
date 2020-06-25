@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
 public class item : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -23,4 +24,20 @@ public class item : MonoBehaviour
             Debug.Log("물약 마심!");
         }
     }
+=======
+public class item
+{
+    public enum ItemType
+    {
+        Speed,
+        Plustime,
+        answer
+    }
+
+
+
+    public ItemType itemType;
+    public int amount;
+
+>>>>>>> master
 }

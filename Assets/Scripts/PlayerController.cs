@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     public GameObject item;
 
     //중력 추가 구현을 위한 변수들
-    public float gravity= -9.81f;
+    public float gravity = -9.81f;
     Vector3 velocity;
 
     //허들 인식용
@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        
+
     }
     public void OnControllerColliderHit(ControllerColliderHit other)
     {
@@ -49,16 +49,16 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {        
-      
+    {
+
         if (isTouched)
         {
             gameEnding.playerTouchedObstacles();
         }
-        if(controller.isGrounded)
+        if (controller.isGrounded)
         {
             direction.y = -1;
-            if(Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 Jump();
             }
@@ -71,13 +71,13 @@ public class PlayerController : MonoBehaviour
 
         direction.z = forwardSpeed;
         // 우리가 있어야 할 라인
-        if(Input.GetKeyDown(KeyCode.RightArrow))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             desiredLane++;
-            if(desiredLane == 3)
+            if (desiredLane == 3)
             {
                 desiredLane = 2;
-            }    
+            }
 
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -92,21 +92,21 @@ public class PlayerController : MonoBehaviour
 
         //추가한것
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
-        
-        
-        if(desiredLane == 0)
+
+
+        if (desiredLane == 0)
         {
             targetPosition += Vector3.left * laneDistance;
 
         }
-        else if(desiredLane == 2)
+        else if (desiredLane == 2)
         {
             targetPosition += Vector3.right * laneDistance;
         }
         transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
         controller.center = controller.center;
 
-       
+
         //velocity.y += gravity * Time.deltaTime;
         //if (!controller.isGrounded)
         //{
@@ -117,8 +117,8 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        controller.Move(direction* Time.fixedDeltaTime);
-  
+        controller.Move(direction * Time.fixedDeltaTime);
+
     }
 
     private void Jump()
