@@ -14,20 +14,37 @@ public class PlayerController : MonoBehaviour
 
     public float jumpForce;
 
-    public float Gravity = -20;
+    //중력 추가 구현을 위한 변수들
+    public float gravity = -9.81f;
+    Vector3 velocity;
 
-    // Start is called before the first frame update
+    //허들 인식용
+    bool isTouched;
+    public GameEnding gameEnding;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        
+
+    }
+    public void OnControllerColliderHit(ControllerColliderHit other)
+    {
+        Debug.Log(other.gameObject.name.ToString() + "과 일단은 닿았다..");
+        if (other.gameObject.tag == "obstacle")
+        {
+            Debug.Log("player과 닿았다!");
+            isTouched = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        direction.z = forwardSpeed;
 
+        if (isTouched)
+        {
+            gameEnding.playerTouchedObstacles();
+        }
         if (controller.isGrounded)
         {
             direction.y = -1;
@@ -38,19 +55,19 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            direction.y += Gravity * Time.deltaTime;
+            direction.y += gravity * Time.deltaTime;
 
         }
 
-
+        direction.z = forwardSpeed;
         // 우리가 있어야 할 라인
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             desiredLane++;
-            if(desiredLane == 3)
+            if (desiredLane == 3)
             {
                 desiredLane = 2;
-            }    
+            }
 
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -62,27 +79,37 @@ public class PlayerController : MonoBehaviour
             }
 
         }
-        
+
+        //추가한것
         Vector3 targetPosition = transform.position.z * transform.forward + transform.position.y * transform.up;
 
-        if(desiredLane == 0)
+
+        if (desiredLane == 0)
         {
             targetPosition += Vector3.left * laneDistance;
 
         }
-        else if(desiredLane == 2)
+        else if (desiredLane == 2)
         {
             targetPosition += Vector3.right * laneDistance;
         }
-       transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
-       //controller.center = controller.center
-        //targetPosition;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+        controller.center = controller.center;
+
+
+        //velocity.y += gravity * Time.deltaTime;
+        //if (!controller.isGrounded)
+        //{
+        //    controller.Move(velocity * Time.deltaTime);
+        //}
+
+
     }
     private void FixedUpdate()
     {
         controller.Move(direction * Time.fixedDeltaTime);
-    }
 
+    }
 
     private void Jump()
     {
