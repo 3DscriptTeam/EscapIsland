@@ -132,6 +132,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character_1@Fast Running
       objectReference: {fileID: 0}
+    - target: {fileID: 132750, guid: 655290387b29cbf49882906daebe8ffa, type: 3}
+      propertyPath: m_TagString
+      value: player
+      objectReference: {fileID: 0}
     - target: {fileID: 443440, guid: 655290387b29cbf49882906daebe8ffa, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -397,7 +401,8 @@ MonoBehaviour:
   forwardSpeed: 10
   laneDistance: 4
   jumpForce: 10
-  Gravity: -20
+  gravity: -9.81
+  gameEnding: {fileID: 0}
 --- !u!143 &1951168492
 CharacterController:
   m_ObjectHideFlags: 0
