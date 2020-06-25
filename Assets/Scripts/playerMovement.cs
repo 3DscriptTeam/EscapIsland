@@ -14,7 +14,8 @@ public class playerMovement : MonoBehaviour
     bool isJumping;
     float horizontalMove;
     float verticalMove;
-    
+    private int desiredLane = 1; // 0 왼쪽 , 1 가운데 2 오른쪽
+    public float laneDistance = 4; // the distance between two lane
 
 
     // Start is called before the first frame update
@@ -23,6 +24,11 @@ public class playerMovement : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
     }
 
+
+
+    // Update is called once per frame
+    
+    
     // Update is called once per frame
     void Update()
     {
@@ -47,8 +53,8 @@ public class playerMovement : MonoBehaviour
         {
             isJumping = true;
         }
-
-        /*
+        
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
@@ -61,7 +67,7 @@ public class playerMovement : MonoBehaviour
 
         Vector3 desiredForward = Vector3.RotateTowards(transform.forward, movement, turnSpeed * Time.deltaTime, 0f);
         Rotation = Quaternion.LookRotation(desiredForward);
-        */
+        
     }
 
     void FixedUpdate()
@@ -94,3 +100,4 @@ public class playerMovement : MonoBehaviour
 
 }
 
+    

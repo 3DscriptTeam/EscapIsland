@@ -11,6 +11,7 @@ public class Player2Motor : MonoBehaviour
     private float verticalVelocity = 0.0f;
     private float gravity = 12.0f;
     // Start is called before the first frame update
+
     void Start()
     {
         controller = GetComponent<CharacterController> ();
