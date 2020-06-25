@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     Text _text;
-    float timeleft = 100;
+    public float timeleft = 100;
    
 
     void Start()
