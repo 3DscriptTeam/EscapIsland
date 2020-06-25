@@ -53,12 +53,14 @@ public class levelController : MonoBehaviour
     Queue<GameObject> activePieces =new Queue<GameObject>();
     Queue<GameObject> activeObstacles = new Queue<GameObject>();
     Queue<GameObject> activeItems = new Queue<GameObject>();
+
     int currentCamStep = 0;
     int lastCamStep = 0;
 
     float brigdgeLoc = 0;
     int i = 0;
     int j = 0;
+    int k = 0;
     float logSaving;
 
 
@@ -77,12 +79,12 @@ public class levelController : MonoBehaviour
         {
 
             SpawnNewLevelPiece();
-            if(i>5)
+            if (i > 5)
                 SpawnObstacles();
             bridgeOnStage = true;
-            
+            spawnItem();
         }
-        spawnItem();
+        
         currentCamStep = (int)(_camera.transform.position.z / pieceLength);
         lastCamStep = currentCamStep;
 
@@ -126,22 +128,22 @@ public class levelController : MonoBehaviour
     void spawnItem()
     {
         int pieceIndex = probabilityList_item[Random.Range(0, probabilityList_item.Count)];
-        GameObject item = Instantiate(levelItems[pieceIndex].prefab, new Vector3(0f, 1f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
-        item.name = "item" + j.ToString();
-        j++;
-        activePieces.Enqueue(item);
+        GameObject item = Instantiate(levelItems[pieceIndex].prefab, new Vector3(Random.Range(-1,1)*1.37f, 1f, pieceLength * (currentCamStep + activeItems.Count)), Quaternion.identity);
+        item.name = "item" + k.ToString();
+        k++;
+        activeItems.Enqueue(item);
     }
 
-    void randomQuiz(int t)
-    {
-        for (int a = 0; a < randomTime.Count; a++)
-        {
-            if (randomTime.Contains(t))
-            {              
-                gameIsPaused = true;
-            }
-        }
-    }
+    //void randomQuiz(int t)
+    //{
+    //    for (int a = 0; a < randomTime.Count; a++)
+    //    {
+    //        if (randomTime.Contains(t))
+    //        {              
+    //            gameIsPaused = true;
+    //        }
+    //    }
+    //}
 
     void SpawnObstacles()   //장애물 배치
     {
@@ -154,14 +156,14 @@ public class levelController : MonoBehaviour
             {
                 loc = brigdgeLoc;
             }                                                                                                                                                                            
-            GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(loc, 0f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+            GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(loc, 0f, pieceLength * (currentCamStep + activeObstacles.Count)), Quaternion.identity);
             hurdle.name = "hurdle"+i.ToString();
             i++;
             activeObstacles.Enqueue(hurdle);
         }
         else       //철조망
         {
-            GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(0f, 0f, pieceLength * (currentCamStep + activePieces.Count)), Quaternion.identity);
+            GameObject hurdle = Instantiate(obstacles[pieceIndex].prefab, new Vector3(0f, 0f, pieceLength * (currentCamStep + activeObstacles.Count)), Quaternion.identity);
             hurdle.name = "hurdle" + i.ToString();
             i++;
             activeObstacles.Enqueue(hurdle);

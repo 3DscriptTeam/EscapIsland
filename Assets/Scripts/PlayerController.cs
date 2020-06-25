@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         else if(other.gameObject.tag=="item")
         {
             Debug.Log("물약마심!");
-            forwardSpeed += 10;
+            forwardSpeed += 1;
 
             other.gameObject.SetActive(false);
         }
