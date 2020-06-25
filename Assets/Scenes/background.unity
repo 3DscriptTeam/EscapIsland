@@ -150,6 +150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d7b39d58d6978e408309d92589bafc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeL: 0
+  rr: 0
+  gameIsPaused: 0
+  player: {fileID: 1376531176}
+  quizUI: {fileID: 0}
   obstacles:
   - name: WireFence
     prefab: {fileID: 5982387308935867516, guid: db00d30c5033be6449cc35849c91880b,
@@ -950,6 +955,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   forwardSpeed: 3
   laneDistance: 1.5
+  jumpForce: 6
   gravity: -9.81
   gameEnding: {fileID: 1228712063}
 --- !u!23 &1376531180

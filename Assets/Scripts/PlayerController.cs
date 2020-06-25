@@ -12,8 +12,9 @@ public class PlayerController : MonoBehaviour
     private int desiredLane = 1; // 0 왼쪽 , 1 가운데 2 오른쪽
     public float laneDistance = 4; // the distance between two lane
 
+    public float jumpForce;
 
-     //중력 추가 구현을 위한 변수들
+    //중력 추가 구현을 위한 변수들
     public float gravity= -9.81f;
     Vector3 velocity;
 
@@ -38,10 +39,24 @@ public class PlayerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
+      
         if (isTouched)
         {
             gameEnding.playerTouchedObstacles();
+        }
+        if(controller.isGrounded)
+        {
+            direction.y = -1;
+            if(Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                Jump();
+            }
+        }
+        else
+        {
+            direction.y += gravity * Time.deltaTime;
+
         }
 
         direction.z = forwardSpeed;
@@ -81,18 +96,23 @@ public class PlayerController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
         controller.center = controller.center;
 
-        velocity.y += gravity * Time.deltaTime;
-        if (!controller.isGrounded)
-        {
-            controller.Move(velocity * Time.deltaTime);
-        }
+       
+        //velocity.y += gravity * Time.deltaTime;
+        //if (!controller.isGrounded)
+        //{
+        //    controller.Move(velocity * Time.deltaTime);
+        //}
 
 
     }
     private void FixedUpdate()
     {
         controller.Move(direction* Time.fixedDeltaTime);
-    
+  
+    }
 
+    private void Jump()
+    {
+        direction.y = jumpForce;
     }
 }

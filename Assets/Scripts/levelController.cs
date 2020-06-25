@@ -8,6 +8,7 @@ public class levelController : MonoBehaviour
     // 왼쪽라인, 중간라인, 오른쪽라인 중 어디에 나올지 고른다
     // 몇개가 나오는건지 고른다
 
+    public float timeL; 
 
     [System.Serializable]
     public class LevelPiece
@@ -17,6 +18,12 @@ public class levelController : MonoBehaviour
         public int probability = 1;
     }
 
+   
+    List<int> randomTime= new List<int>();        // 랜덤 시간 추출
+    public float rr;
+    public bool gameIsPaused;
+    public GameObject player;
+    public GameObject quizUI;
 
 
     public LevelPiece[] obstacles;  //장애물 
@@ -47,8 +54,16 @@ public class levelController : MonoBehaviour
     int j = 0;
     float logSaving;
 
+
     private void Start()
     {
+        //quizUI.SetActive(false);
+        //for (int rr=0; rr<3; rr++)
+        //{
+        //    rr = Random.Range(0,1)*60 +2;
+        //    randomTime.Add(rr);
+        //}
+
         bridgeOnStage = true;
         BuidProbabilityList();
         for (int i = 0; i < drawDistance; i++)
@@ -64,10 +79,17 @@ public class levelController : MonoBehaviour
 
     }
 
+
+
     private void Update()
     {
+        //if(gameIsPaused==true)
+        //{
+        //    quizUI.SetActive(true);
+        //}
 
-         _camera.transform.position = Vector3.MoveTowards(_camera.transform.position, _camera.transform.position + Vector3.forward, Time.deltaTime * speed);
+        //timeL -= Time.deltaTime;
+        _camera.transform.position = Vector3.MoveTowards(_camera.transform.position, _camera.transform.position + Vector3.forward, Time.deltaTime * speed);
 
         logSaving += _camera.transform.position.z;
         currentCamStep = (int)(_camera.transform.position.z / pieceLength);
@@ -89,6 +111,18 @@ public class levelController : MonoBehaviour
             
         }
 
+    }
+
+
+    void randomQuiz(int t)
+    {
+        for (int a = 0; a < randomTime.Count; a++)
+        {
+            if (randomTime.Contains(t))
+            {              
+                gameIsPaused = true;
+            }
+        }
     }
 
     void SpawnObstacles()   //장애물 배치
