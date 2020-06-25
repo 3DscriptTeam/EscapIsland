@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,10 +20,9 @@ public class Timer : MonoBehaviour
     void Update()
     {
         timeleft -= Time.deltaTime;
-        _text.text = "TIME LEFT : " + Math.Truncate(timeleft * 10) / 10;
+        _text.text = "TIME LEFT : " + (Math.Truncate(timeleft*10)/10);
         if (timeleft <= 0 )
         {
-          
             timeleft = 0;
         }
 
