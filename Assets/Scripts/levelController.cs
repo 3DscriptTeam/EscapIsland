@@ -79,7 +79,7 @@ public class levelController : MonoBehaviour
         {
 
             SpawnNewLevelPiece();
-            if (i > 5)
+            if (i > 6)
                 SpawnObstacles();
             bridgeOnStage = true;
             spawnItem();

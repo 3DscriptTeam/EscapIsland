@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     //허들 인식용
     bool isTouched;
     public GameEnding gameEnding;
+    public bool portion;
 
     void Start()
     {
@@ -47,6 +48,7 @@ public class PlayerController : MonoBehaviour
             booster = true;
             count++;
             other.gameObject.SetActive(false);
+            portion = true;
         }
       
     }

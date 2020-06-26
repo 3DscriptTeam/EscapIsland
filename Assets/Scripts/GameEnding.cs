@@ -30,6 +30,11 @@ public class GameEnding : MonoBehaviour
         isPlayerDead = true;
     }
 
+    public void playerWin()
+    {
+        isPlayerExit = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag =="player")
@@ -45,10 +50,7 @@ public class GameEnding : MonoBehaviour
 
         if(timer> fadeDuration+ imageDisplayDuration)
         {
-            if(doRestat)
-                SceneManager.LoadScene("background");        // 게임씬(현재 임시용)
-            else
-                SceneManager.LoadScene("Menu");
+             SceneManager.LoadScene("StartMenu");
         }
     }
 
