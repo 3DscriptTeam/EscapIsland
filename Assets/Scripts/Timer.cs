@@ -10,6 +10,8 @@ public class Timer : MonoBehaviour
     Text _text;
     public float timeleft = 100;
     public GameEnding gameEnding;
+    public bool quizActivated;
+    public GameObject quiz;
 
     void Start()
     {
@@ -24,6 +26,10 @@ public class Timer : MonoBehaviour
     {
         timeleft -= Time.deltaTime;
         _text.text = "TIME LEFT : " + (Math.Truncate(timeleft*10)/10);
+        if(timeleft % 5==0)
+        {
+            quiz.SetActive(true);
+        }
         if (timeleft <= 80 )
         {
             timeleft = 0;
