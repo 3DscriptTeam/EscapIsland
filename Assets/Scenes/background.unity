@@ -2409,7 +2409,7 @@ MonoBehaviour:
   jumpForce: 10
   item: {fileID: 0}
   gravity: -9.81
-  gameEnding: {fileID: 0}
+  gameEnding: {fileID: 1228712063}
 --- !u!143 &1686387722
 CharacterController:
   m_ObjectHideFlags: 0
