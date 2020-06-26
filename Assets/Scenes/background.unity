@@ -2272,9 +2272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c128219904758447933b5c13d1cc2a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardSpeed: 10
+  forwardSpeed: 5
   laneDistance: 1.5
-  jumpForce: 10
+  jumpForce: 5
   item: {fileID: 5096524946460352789, guid: 492b9e67e085ad1459797fc019c51c60, type: 3}
   gravity: -9.81
   gameEnding: {fileID: 1228712063}
@@ -2289,13 +2289,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 0.35
-  m_Radius: 0.08
+  m_Height: 0.2
+  m_Radius: 0.05
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.15, z: 0}
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!4 &1686387724 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 443440, guid: 655290387b29cbf49882906daebe8ffa,
@@ -2477,7 +2477,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 443440, guid: 655290387b29cbf49882906daebe8ffa, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.11
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 443440, guid: 655290387b29cbf49882906daebe8ffa, type: 3}
       propertyPath: m_LocalRotation.x
