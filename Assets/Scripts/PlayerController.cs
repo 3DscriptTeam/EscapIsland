@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("player과 닿았다!");
             isTouched = true;
+            forwardSpeed = 0f;
         }
         else if(other.gameObject.tag=="item")
         {
