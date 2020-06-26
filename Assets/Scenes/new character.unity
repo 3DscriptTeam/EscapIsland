@@ -166,7 +166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 443440, guid: 655290387b29cbf49882906daebe8ffa, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 443440, guid: 655290387b29cbf49882906daebe8ffa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -288,6 +288,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1706076147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1000013317980782, guid: 2cf6690298568294cb6b655c0a3aeb87,
+    type: 3}
+  m_PrefabInstance: {fileID: 1927392549}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1788540267
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,7 +468,9 @@ MonoBehaviour:
   forwardSpeed: 10
   laneDistance: 4
   jumpForce: 10
-  Gravity: -20
+  item: {fileID: 1706076147}
+  gravity: -9.81
+  gameEnding: {fileID: 0}
 --- !u!143 &1951168492
 CharacterController:
   m_ObjectHideFlags: 0
