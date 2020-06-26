@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
         {
             //Debug.Log("player과 닿았다!");
             isTouched = true;
+            forwardSpeed = 0f;
         }
         else if(other.gameObject.tag=="item")
         {
@@ -118,6 +119,7 @@ public class PlayerController : MonoBehaviour
             targetPosition += Vector3.right * laneDistance;
         }
         transform.position = Vector3.Lerp(transform.position, targetPosition, 80 * Time.deltaTime);
+       
         controller.center = controller.center;
 
 
